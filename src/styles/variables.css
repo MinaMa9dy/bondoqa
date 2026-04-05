@@ -1,0 +1,30 @@
+/* variables.css */
+:root {
+  /* Core brand colors based on the design */
+  --bg-main: #f5efe6;
+  --bg-card: #ffffff;
+  --bg-secondary: #f5efe6; /* Unified with bg-main */
+  --color-primary: #5c3a21; /* Dark brown */
+  --color-text: #3e2723;
+  --color-text-light: #705446;
+  --color-border: #dcd0c0;
+  
+  /* Typography */
+  --font-arabic: 'Cairo', 'Tajawal', sans-serif;
+  --font-english: 'Inter', sans-serif;
+  
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease-in-out;
+  --transition-normal: 0.3s ease-in-out;
+}
