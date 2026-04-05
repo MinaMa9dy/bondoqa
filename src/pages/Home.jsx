@@ -6,16 +6,15 @@ const Home = () => {
   return (
     <div className="home-page">
       {/* Hero Section */}
-      <section className="hero-section container">
-        <div className="hero-content">
-          <h2 className="hero-title">استمتع المكسرات الحقيقي</h2>
-          <p className="hero-subtitle">جودة طبيعية، ببساطة أصيلة</p>
-          <button className="btn-primary">تسوق الآن</button>
-        </div>
-        <div className="hero-image-wrapper">
-          {/* Main Hero Banner image */}
-          <div className="hero-image-placeholder">
-             <img src="/images/banner/image.png" alt="بندقة استمتع المكسرات الحقيقي" style={{width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-md)'}} />
+      <section className="hero-section">
+        <div className="container hero-inner">
+          <div className="hero-content">
+            <h2 className="hero-title">استمتع بالمكسرات الحقيقية</h2>
+            <p className="hero-subtitle">جودة طبيعية، ببساطة أصيلة</p>
+            <button className="btn-primary">تسوق الآن</button>
+          </div>
+          <div className="hero-image-wrapper">
+             <img src="/images/banner/image.png" alt="بندقة استمتع بالمكسرات الحقيقية" className="hero-main-img" />
           </div>
         </div>
       </section>

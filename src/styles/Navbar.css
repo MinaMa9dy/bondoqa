@@ -1,17 +1,19 @@
 /* Navbar.css */
 .navbar {
-  background-color: var(--bg-main);
+  background-color: rgba(245, 239, 230, 0.9); /* Slightly translucent */
+  backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--color-border);
-  padding: 1rem 0;
+  padding: 0.5rem 0;
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000; /* Higher z-index just in case */
 }
 
 .navbar-inner {
   height: 60px;
   display: flex !important;
   flex-direction: row !important;
+  align-items: center !important; /* Forces vertical centering */
   direction: ltr !important; 
 }
 
