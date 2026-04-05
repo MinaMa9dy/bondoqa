@@ -10,9 +10,9 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
   
-  // Scroll to top and reset quantity when product changes
+  // Smooth scroll to top and reset quantity when product changes
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setQuantity(1);
   }, [id]);
 
