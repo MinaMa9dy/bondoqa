@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { products } from '../data/mockData';
 import { useCart } from '../context/CartContext';
@@ -10,8 +10,14 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
   
+  // Scroll to top and reset quantity when product changes
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    setQuantity(1);
+  }, [id]);
+
   // Find the product by ID from mockData
-  const mainProduct = products.find(p => p.id === parseInt(id)) || products[1];
+  const mainProduct = products.find(p => p.id === parseInt(id)) || products[0];
 
   const handleDecrease = () => setQuantity(prev => prev > 1 ? prev - 1 : 1);
   const handleIncrease = () => setQuantity(prev => prev + 1);
