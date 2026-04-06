@@ -24,7 +24,7 @@ const Home = () => {
       {/* Categories / Featured Products */}
       <section className="featured-section container">
         <h2 className="section-title">المنتجات المميزة</h2>
-        <div className="product-grid slider-on-mobile">
+        <div className="product-grid">
           {products.map(product => (
             <ProductCard key={product.id} product={product} />
           ))}
