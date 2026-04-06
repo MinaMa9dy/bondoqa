@@ -11,7 +11,6 @@ const Home = () => {
           <div className="hero-content">
             <h2 className="hero-title">استمتع بالمكسرات الحقيقية</h2>
             <p className="hero-subtitle">جودة طبيعية، ببساطة أصيلة</p>
-            <button className="btn-primary">تسوق الآن</button>
           </div>
           <div className="hero-image-wrapper">
              <picture className="hero-main-img">

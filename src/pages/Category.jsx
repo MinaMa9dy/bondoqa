@@ -8,17 +8,13 @@ const Category = () => {
   return (
     <div className="category-page container">
       <div className="category-header">
-        <h2 className="category-title">مجموعة اللوز الملكية</h2>
-        <h3 className="category-subtitle">Almonds</h3>
+        <h2 className="category-title">جميع منتجاتنا</h2>
+        <h3 className="category-subtitle">Bondoqa Collection</h3>
       </div>
       
       <div className="product-grid">
         {products.map(product => (
           <ProductCard key={product.id} product={product} />
-        ))}
-        {/* Repeating data just to fill the grid like in the design */}
-        {products.map(product => (
-          <ProductCard key={product.id + 10} product={product} />
         ))}
       </div>
     </div>

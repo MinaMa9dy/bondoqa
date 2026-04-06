@@ -6,7 +6,7 @@ import '../styles/Cart.css';
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity, cartSubtotal } = useCart();
-  const total = cartSubtotal + (cartItems.length > 0 ? 70 : 0);
+  const total = cartSubtotal + (cartItems.length > 0 ? 30 : 0);
 
   return (
     <div className="cart-page container">
@@ -16,12 +16,32 @@ const Cart = () => {
         <div className="cart-list">
           <h2 className="cart-title">سلة المشتريات</h2>
           {cartItems.length === 0 ? <p>سلة المشتريات فارغة</p> : cartItems.map((item) => (
-            <div key={item.id} className="cart-item">
+            <div key={`${item.id}-${item.selectedWeight}-${item.selectedType}`} className="cart-item">
                <div className="cart-item-img-wrap">
-                 <img src={item.image} alt={item.name} />
+                 {(() => {
+                    const match = item.image.match(/(.*)\.(png|jpe?g)$/i);
+                    const encodedBase = match ? encodeURI(match[1]) : '';
+                    const rp = match ? {
+                      srcSet: `${encodedBase}-320.webp 320w`,
+                      sizes: "60px"
+                    } : null;
+                    return (
+                      <picture>
+                        {rp && <source type="image/webp" srcSet={rp.srcSet} sizes={rp.sizes} />}
+                        <img src={item.image} alt={item.name} />
+                      </picture>
+                    );
+                 })()}
                </div>
                <div className="cart-item-info">
-                 <h4 className="cart-item-name">{item.name}</h4>
+                 <h4 className="cart-item-name">
+                    {item.name} 
+                 </h4>
+                 <div className="cart-item-meta" style={{fontSize: '0.8rem', color: 'var(--color-text-light)', marginBottom: '0.4rem'}}>
+                    <span>{item.selectedWeight}</span>
+                    <span style={{margin: '0 0.5rem'}}>•</span>
+                    <span>{item.selectedType}</span>
+                 </div>
                  <div className="cart-item-price">
                    {item.price} {item.currency}
                  </div>
@@ -29,11 +49,11 @@ const Cart = () => {
                
                <div className="cart-item-actions flex items-center gap-4">
                  <div className="quantity-selector-sm">
-                    <button className="qty-btn-sm" onClick={() => updateQuantity(item.id, -1)}>-</button>
+                    <button className="qty-btn-sm" onClick={() => updateQuantity(item.id, item.selectedWeight, item.selectedType, -1)}>-</button>
                     <span className="qty-val-sm">{item.quantity}</span>
-                    <button className="qty-btn-sm" onClick={() => updateQuantity(item.id, 1)}>+</button>
+                    <button className="qty-btn-sm" onClick={() => updateQuantity(item.id, item.selectedWeight, item.selectedType, 1)}>+</button>
                  </div>
-                 <button className="btn-remove" onClick={() => removeFromCart(item.id)}>
+                 <button className="btn-remove" onClick={() => removeFromCart(item.id, item.selectedWeight, item.selectedType)}>
                    <Trash2 size={20} />
                  </button>
                </div>
@@ -47,16 +67,16 @@ const Cart = () => {
             <h3 className="summary-title">ملخص الطلب</h3>
             <div className="summary-row">
               <span>المجموع الفرعي</span>
-              <span>{cartSubtotal} EGP</span>
+              <span>{cartSubtotal} ج.م</span>
             </div>
             <div className="summary-row">
               <span>الشحن</span>
-              <span>{cartItems.length > 0 ? 70 : 0} EGP</span>
+              <span>{cartItems.length > 0 ? 30 : 0} ج.م</span>
             </div>
             <hr className="summary-divider" />
             <div className="summary-row summary-total">
               <span>الإجمالي</span>
-              <span>{total} EGP</span>
+              <span>{total} ج.م</span>
             </div>
             <Link to="/checkout" style={{textDecoration: 'none'}}>
               <button className="btn-primary w-full mt-4">تأكيد الطلب</button>

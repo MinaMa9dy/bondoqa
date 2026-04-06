@@ -47,10 +47,11 @@ const Checkout = () => {
     orderText += `🛒 *المنتجات:*\n`;
 
     cartItems.forEach(item => {
-      orderText += `- ${item.name} (x${item.quantity}) - ${item.price * item.quantity} EGP\n`;
+      orderText += `🔹 *${item.name}* (${item.selectedWeight} | ${item.selectedType})\n`;
+      orderText += `   🔢 الكمية: ${item.quantity} | 💰 السعر: ${item.price * item.quantity} ج.م\n\n`;
     });
 
-    orderText += `\n💰 *الإجمالي:* ${cartSubtotal + 70} EGP (شامل الشحن)`;
+    orderText += `💰 *الإجمالي:* ${cartSubtotal + 30} ج.م (شامل الشحن)`;
 
     try {
       if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
@@ -133,9 +134,9 @@ const Checkout = () => {
 
           <div className="checkout-summary-sticky">
             <h3>ملخص الدفع</h3>
-            <div className="flex justify-between mt-2">
-              <span>المجموع:</span>
-              <span className="font-bold">{cartSubtotal + 70} EGP</span>
+            <div className="flex justify-between mt-2" style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span>المجموع (شامل الشحن):</span>
+              <span className="font-bold">{cartSubtotal + 30} ج.م</span>
             </div>
             <p className="summary-note mt-2">سوف يتم التواصل معك قريباً لتأكيد موعد الاستلام.</p>
             <button type="submit" className="btn-primary w-full mt-4" disabled={isSubmitting}>

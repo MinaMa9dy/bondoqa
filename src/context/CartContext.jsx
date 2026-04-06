@@ -19,10 +19,12 @@ export const CartProvider = ({ children }) => {
   // Add item to cart logic
   const addToCart = (product, quantity = 1) => {
     setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
+      const existingItem = prevItems.find(item => 
+        item.id === product.id && item.selectedWeight === product.selectedWeight
+      );
       if (existingItem) {
         return prevItems.map(item =>
-          item.id === product.id
+          (item.id === product.id && item.selectedWeight === product.selectedWeight)
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
@@ -31,13 +33,15 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeFromCart = (productId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+  const removeFromCart = (productId, weight, type) => {
+    setCartItems(prevItems => prevItems.filter(item => 
+      !(item.id === productId && item.selectedWeight === weight && item.selectedType === type)
+    ));
   };
 
-  const updateQuantity = (productId, delta) => {
+  const updateQuantity = (productId, weight, type, delta) => {
     setCartItems(prevItems => prevItems.map(item => {
-      if (item.id === productId) {
+      if (item.id === productId && item.selectedWeight === weight && item.selectedType === type) {
         const newQty = Math.max(1, item.quantity + delta);
         return { ...item, quantity: newQty };
       }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Search, User, ShoppingCart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { logoPath } from '../data/mockData';
 import { useCart } from '../context/CartContext';
 import '../styles/Navbar.css';
@@ -49,8 +49,6 @@ const Navbar = () => {
         
         {/* Actions */}
         <div className="navbar-actions flex items-center gap-4">
-          <button className="icon-btn" aria-label="Search"><Search size={22} /></button>
-          <button className="icon-btn" aria-label="User Profile"><User size={22} /></button>
           <Link to="/cart" className={`icon-btn cart-btn ${isBumped ? 'bump' : ''}`} aria-label="Shopping Cart">
             <ShoppingCart size={22} />
             <span className="cart-badge">{cartCount}</span>

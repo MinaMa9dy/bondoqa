@@ -120,13 +120,37 @@
 
 .product-img-wrapper {
   background-color: #fafafa;
-  padding: 1rem;
+  padding: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 160px; /* Rigid height */
   position: relative;
   overflow: hidden;
+}
+
+.badge-mixed {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 4px;
+  z-index: 10;
+  pointer-events: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.badge-mixed.mixed {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.badge-mixed.whole {
+  background-color: #f5efe6;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
 }
 
 @media (min-width: 768px) {

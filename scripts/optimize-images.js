@@ -34,27 +34,36 @@ const optimize = async () => {
     for (const imgPath of originalImages) {
         const parsed = path.parse(imgPath);
         
-        for (const width of WIDTHS) {
-            const webpName = `${parsed.name}-${width}.webp`;
-            const webpPath = path.join(parsed.dir, webpName);
+        try {
+            const image = sharp(imgPath);
+            const metadata = await image.metadata();
             
-            // Only generate if it doesn't exist
-            if (!fs.existsSync(webpPath)) {
-                console.log(`Generating: ${webpName}`);
-                try {
-                  await sharp(imgPath)
-                      .resize(width)
-                      .webp({ quality: 75 })
-                      .toFile(webpPath);
-                } catch (e) {
-                  console.error(`Error processing ${imgPath}:`, e.message);
-                }
-            } else {
-                console.log(`Skipping (already exists): ${webpName}`);
+            // Check if vertical and needs rotation to horizontal
+            let pipeline = image;
+            const isBanner = parsed.dir.toLowerCase().includes('banner');
+            
+            if (metadata.height > metadata.width && !isBanner) {
+                console.log(`Rotating vertical image to horizontal: ${parsed.base}`);
+                pipeline = pipeline.rotate(90);
             }
+
+            for (const width of WIDTHS) {
+                const webpName = `${parsed.name}-${width}.webp`;
+                const webpPath = path.join(parsed.dir, webpName);
+                
+                // Always regenerate if we changed rotation logic or just to be safe
+                console.log(`Generating: ${webpName}`);
+                await pipeline
+                    .clone() // Clone to use same rotation for different widths
+                    .resize(width)
+                    .webp({ quality: 75 })
+                    .toFile(webpPath);
+            }
+        } catch (e) {
+            console.error(`Error processing ${imgPath}:`, e.message);
         }
     }
-    console.log("Image optimization complete! 🚀");
+    console.log("Image optimization and rotation complete! 🚀");
 };
 
 optimize().catch(console.error);

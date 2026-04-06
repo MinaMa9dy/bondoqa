@@ -15,20 +15,25 @@ const ProductCard = ({ product }) => {
     };
   };
 
-  const rp = getResponsiveSources(product.image);
+  const rp = getResponsiveSources(product.images[0]);
   
   const [isAdded, setIsAdded] = React.useState(false);
   const timerRef = React.useRef(null);
 
   const handleAddToCart = (e) => {
     e.preventDefault();
-    addToCart(product);
+    const defaultOption = product.options.find(opt => opt.weight === "500 gm");
+    addToCart({ 
+      ...product, 
+      selectedWeight: "500 gm",
+      selectedType: "مش كسر",
+      price: defaultOption ? defaultOption.price : product.price,
+      image: product.images[0]
+    });
     
-    // Clear existing timer if any to restart the feedback cycle
     if (timerRef.current) clearTimeout(timerRef.current);
-    
     setIsAdded(true);
-    timerRef.current = setTimeout(() => setIsAdded(false), 1000); // Shorter duration
+    timerRef.current = setTimeout(() => setIsAdded(false), 1000);
   };
   
   return (
@@ -37,7 +42,7 @@ const ProductCard = ({ product }) => {
         <picture className="product-img">
           {rp && <source type="image/webp" srcSet={rp.srcSet} sizes={rp.sizes} />}
           <img 
-            src={product.image} 
+            src={product.images[0]} 
             alt={product.name} 
             className="product-img" 
             loading="lazy" 
@@ -50,6 +55,9 @@ const ProductCard = ({ product }) => {
       <div className="product-info">
         <Link to={`/product/${product.id}`} style={{textDecoration: 'none', color: 'inherit'}}>
           <h3 className="product-title">{product.name}</h3>
+          <span className="product-weight" style={{ fontSize: '0.75rem', color: 'var(--color-text-light)', display: 'block', marginBottom: '0.5rem' }}>
+            {product.defaultWeight}
+          </span>
         </Link>
         <div className="product-price">
           <span className="price-val">{product.price}</span>
