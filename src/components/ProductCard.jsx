@@ -4,19 +4,48 @@ import { useCart } from '../context/CartContext';
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
+  const getResponsiveSources = (originalSrc) => {
+    // Assuming format is /images/name.ext
+    const match = originalSrc.match(/(.*)\.(png|jpe?g)$/i);
+    if (!match) return null;
+    const base = encodeURI(match[1]); // Fixes spaces breaking srcSet
+    return {
+      srcSet: `${base}-320.webp 320w, ${base}-640.webp 640w, ${base}-1024.webp 1024w`,
+      sizes: "(max-width: 480px) 320px, (max-width: 768px) 640px, 1024px"
+    };
+  };
+
+  const rp = getResponsiveSources(product.image);
+  
+  const [isAdded, setIsAdded] = React.useState(false);
+  const timerRef = React.useRef(null);
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    addToCart(product);
+    
+    // Clear existing timer if any to restart the feedback cycle
+    if (timerRef.current) clearTimeout(timerRef.current);
+    
+    setIsAdded(true);
+    timerRef.current = setTimeout(() => setIsAdded(false), 1000); // Shorter duration
+  };
   
   return (
     <div className="product-card">
       <Link to={`/product/${product.id}`} className="product-img-wrapper">
-        <img 
-          src={product.image} 
-          alt={product.name} 
-          className="product-img" 
-          onError={(e) => {
-            // Fallback placeholder
-            e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23e8dbce'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' fill='%235c3a21'%3E%D8%B5%D9%88%D8%B1%D8%A9 %D8%A7%D9%84%D9%85%D9%86%D8%AA%D8%AC%3C/text%3E%3C/svg%3E";
-          }}
-        />
+        <picture className="product-img">
+          {rp && <source type="image/webp" srcSet={rp.srcSet} sizes={rp.sizes} />}
+          <img 
+            src={product.image} 
+            alt={product.name} 
+            className="product-img" 
+            loading="lazy" 
+            onError={(e) => {
+              e.target.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect width='200' height='200' fill='%23e8dbce'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' fill='%235c3a21'%3E%D8%B5%D9%88%D8%B1%D8%A9 %D8%A7%D9%84%D9%85%D9%86%D8%AA%D8%AC%3C/text%3E%3C/svg%3E";
+            }}
+          />
+        </picture>
       </Link>
       <div className="product-info">
         <Link to={`/product/${product.id}`} style={{textDecoration: 'none', color: 'inherit'}}>
@@ -27,13 +56,13 @@ const ProductCard = ({ product }) => {
           <span className="price-cur">{product.currency}</span>
         </div>
         <button 
-          className="btn-add-cart" 
+          className={`btn-add-cart ${isAdded ? 'added' : ''}`} 
           onClick={(e) => {
-            e.preventDefault();
-            addToCart(product);
+             // Reset animation for fast repeated clicks
+             handleAddToCart(e);
           }}
         >
-          أضف للسلة
+          {isAdded ? '✔ تمت الإضافة' : 'أضف للسلة'}
         </button>
       </div>
     </div>

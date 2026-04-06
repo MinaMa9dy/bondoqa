@@ -49,4 +49,4 @@ export const products = [
   }
 ];
 
-export const logoPath = "/images/logo.png"; /* Add your logo image here */
+export const logoPath = "/images/logo.png";

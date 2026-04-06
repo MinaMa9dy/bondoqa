@@ -14,7 +14,10 @@ const Home = () => {
             <button className="btn-primary">تسوق الآن</button>
           </div>
           <div className="hero-image-wrapper">
-             <img src="/images/banner/image.png" alt="بندقة استمتع بالمكسرات الحقيقية" className="hero-main-img" />
+             <picture className="hero-main-img">
+               <source type="image/webp" srcSet="/images/banner/image-320.webp 320w, /images/banner/image-640.webp 640w, /images/banner/image-1024.webp 1024w" sizes="(max-width: 768px) 100vw, 650px" />
+               <img src="/images/banner/image.png" alt="بندقة استمتع بالمكسرات الحقيقية" className="hero-main-img" fetchpriority="high" />
+             </picture>
           </div>
         </div>
       </section>

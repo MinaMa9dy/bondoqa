@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { products } from '../data/mockData';
 import { useCart } from '../context/CartContext';
@@ -8,12 +8,30 @@ import '../styles/ProductDetails.css';
 const ProductDetails = () => {
   const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const imgRef = useRef(null);
   const { addToCart } = useCart();
+  const [isAdded, setIsAdded] = useState(false);
+  const timerRef = useRef(null);
   
-  // Smooth scroll to top and reset quantity when product changes
+  const handleAddToCart = () => {
+    addToCart(mainProduct, quantity);
+    
+    // Clear existing timer if any to restart the feedback cycle
+    if (timerRef.current) clearTimeout(timerRef.current);
+    
+    setIsAdded(true);
+    timerRef.current = setTimeout(() => setIsAdded(false), 1000); // Shorter duration
+  };
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setQuantity(1);
+    setImageLoaded(false); // Reset loader for next image
+    
+    // Check if the image cache resolves it instantly
+    if (imgRef.current && imgRef.current.complete) {
+        setImageLoaded(true);
+    }
   }, [id]);
 
   // Find the product by ID from mockData
@@ -28,8 +46,31 @@ const ProductDetails = () => {
         
         {/* Right side (Image) */}
         <div className="product-image-container">
-          <img src={mainProduct.image} alt={mainProduct.name} className="main-product-img" 
-             onError={(e) => { e.target.style.display = 'none'; }} />
+          {!imageLoaded && (
+            <div className="image-loader-pulse"></div>
+          )}
+          
+          {(() => {
+            const match = mainProduct.image.match(/(.*)\.(png|jpe?g)$/i);
+            const encodedBase = match ? encodeURI(match[1]) : '';
+            const rp = match ? {
+              srcSet: `${encodedBase}-320.webp 320w, ${encodedBase}-640.webp 640w, ${encodedBase}-1024.webp 1024w`,
+              sizes: "(max-width: 768px) 100vw, 50vw"
+            } : null;
+            return (
+              <picture className="main-product-picture" key={mainProduct.id} style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {rp && <source type="image/webp" srcSet={rp.srcSet} sizes={rp.sizes} />}
+                <img 
+                  ref={imgRef}
+                  src={mainProduct.image} 
+                  alt={mainProduct.name} 
+                  className={`main-product-img ${imageLoaded ? 'loaded' : ''}`}
+                  onLoad={() => setImageLoaded(true)}
+                  onError={(e) => { e.target.style.display = 'none'; setImageLoaded(true); }} 
+                />
+              </picture>
+            );
+          })()}
         </div>
 
         {/* Left side (Details) */}
@@ -46,7 +87,12 @@ const ProductDetails = () => {
           </p>
           
           <div className="purchase-actions flex gap-4">
-            <button className="btn-primary flex-1 btn-add-main" onClick={() => addToCart(mainProduct, quantity)}>أضف للسلة</button>
+            <button 
+              className={`btn-primary flex-1 btn-add-main ${isAdded ? 'added' : ''}`} 
+              onClick={handleAddToCart}
+            >
+              {isAdded ? '✔ تمت الإضافة' : 'أضف للسلة'}
+            </button>
             <div className="quantity-selector">
               <button onClick={handleDecrease} className="qty-btn">-</button>
               <span className="qty-val">{quantity}</span>

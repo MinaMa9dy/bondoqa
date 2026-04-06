@@ -7,21 +7,36 @@ import '../styles/Navbar.css';
 
 const Navbar = () => {
   const { cartCount } = useCart();
+  const [isBumped, setIsBumped] = React.useState(false);
+
+  React.useEffect(() => {
+    if (cartCount === 0) return;
+    setIsBumped(true);
+    const timer = setTimeout(() => setIsBumped(false), 300);
+    return () => clearTimeout(timer);
+  }, [cartCount]);
   
   return (
     <header className="navbar">
       <div className="container flex justify-between items-center navbar-inner">
         
-        {/* Brand/Logo Area */}
-        <Link to="/" className="navbar-brand flex items-center gap-2">
-          <img src={logoPath} alt="BONDOQA Logo" className="navbar-logo-img" onError={(e) => {
-            // Fallback if user hasn't added the logo yet.
-            e.target.style.display = 'none';
-          }} />
-          <div className="navbar-brand-text">
-            <h1 className="brand-title">بندقة</h1>
-            <span className="brand-subtitle">BONDOQA</span>
-          </div>
+        <Link to="/" className="navbar-brand flex items-center">
+          {(() => {
+            const match = logoPath.match(/(.*)\.(png|jpe?g)$/i);
+            const encodedBase = match ? encodeURI(match[1]) : '';
+            const rp = match ? {
+              srcSet: `${encodedBase}-320.webp 320w, ${encodedBase}-640.webp 640w`,
+              sizes: "150px"
+            } : null;
+            return (
+              <picture>
+                {rp && <source type="image/webp" srcSet={rp.srcSet} sizes={rp.sizes} />}
+                <img src={logoPath} alt="BONDOQA Logo" className="navbar-logo-img" onError={(e) => {
+                  e.target.style.display = 'none';
+                }} />
+              </picture>
+            );
+          })()}
         </Link>
         
         {/* Navigation Links */}
@@ -36,7 +51,7 @@ const Navbar = () => {
         <div className="navbar-actions flex items-center gap-4">
           <button className="icon-btn" aria-label="Search"><Search size={22} /></button>
           <button className="icon-btn" aria-label="User Profile"><User size={22} /></button>
-          <Link to="/cart" className="icon-btn cart-btn" aria-label="Shopping Cart">
+          <Link to="/cart" className={`icon-btn cart-btn ${isBumped ? 'bump' : ''}`} aria-label="Shopping Cart">
             <ShoppingCart size={22} />
             <span className="cart-badge">{cartCount}</span>
           </Link>
