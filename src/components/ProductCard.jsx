@@ -39,6 +39,9 @@ const ProductCard = ({ product }) => {
   return (
     <div className="product-card">
       <Link to={`/product/${product.id}`} className="product-img-wrapper">
+        {product.bestSelling && (
+          <div className="best-selling-badge">الأكثر مبيعاً</div>
+        )}
         <picture className="product-img">
           {rp && <source type="image/webp" srcSet={rp.srcSet} sizes={rp.sizes} />}
           <img 

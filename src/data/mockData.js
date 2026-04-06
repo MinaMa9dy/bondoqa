@@ -1,5 +1,22 @@
 export const products = [
   {
+    id: 5,
+    name: "مشكل مكسرات",
+    price: 340,
+    currency: "ج.م",
+    images: ["/images/مشكل/photo.jpg", "/images/مشكل/photo1.jpg"],
+    category: "مشكل مكسرات",
+    description: "تشكيلة من أجود أنواع المكسرات المحمصة بعناية وحب.",
+    defaultWeight: "500 gm",
+    isMixed: true,
+    bestSelling: true,
+    options: [
+      { weight: "250 gm", price: 170, ksrPrice: 150 },
+      { weight: "500 gm", price: 340, ksrPrice: 280 },
+      { weight: "1000 gm", price: 650, ksrPrice: 520 }
+    ]
+  },
+  {
     id: 1,
     name: "عين جمل",
     price: 250,
@@ -62,24 +79,7 @@ export const products = [
       { weight: "500 gm", price: 340 },
       { weight: "1000 gm", price: 680 }
     ]
-  },
-  {
-    id: 5,
-    name: "مشكل مكسرات",
-    price: 340,
-    currency: "ج.م",
-    images: ["/images/مشكل/photo.jpg", "/images/مشكل/photo1.jpg"],
-    category: "مشكل مكسرات",
-    description: "تشكيلة من أجود أنواع المكسرات المحمصة بعناية وحب.",
-    defaultWeight: "500 gm",
-    isMixed: true,
-    options: [
-      { weight: "250 gm", price: 170, ksrPrice: 150 },
-      { weight: "500 gm", price: 340, ksrPrice: 280 },
-      { weight: "1000 gm", price: 650, ksrPrice: 520 }
-    ]
   }
 ];
 
 export const logoPath = "/images/banner/logo.png";
-
