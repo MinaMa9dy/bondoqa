@@ -36,10 +36,20 @@ const ProductDetails = () => {
     }
   }, [id, mainProduct]);
 
+  useEffect(() => {
+    const updatePrice = () => {
+      const option = mainProduct.options.find(opt => opt.weight === selectedWeight);
+      if (option) {
+        // If type is "كسر" and there's a ksrPrice, use it. Otherwise use normal price.
+        const price = (selectedType === 'كسر' && option.ksrPrice) ? option.ksrPrice : option.price;
+        setDisplayPrice(price);
+      }
+    };
+    updatePrice();
+  }, [selectedWeight, selectedType, mainProduct]);
+
   const handleWeightChange = (weight) => {
     setSelectedWeight(weight);
-    const option = mainProduct.options.find(opt => opt.weight === weight);
-    if (option) setDisplayPrice(option.price);
   };
 
   const handleAddToCart = () => {

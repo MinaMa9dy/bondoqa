@@ -78,8 +78,18 @@ const Cart = () => {
               <span>الإجمالي</span>
               <span>{total} ج.م</span>
             </div>
-            <Link to="/checkout" style={{textDecoration: 'none'}}>
-              <button className="btn-primary w-full mt-4">تأكيد الطلب</button>
+            <Link to="/checkout" style={{textDecoration: 'none'}} onClick={(e) => {
+              if (cartItems.length === 0) {
+                e.preventDefault();
+                alert("السلة فاضية يا بطل! ضيف شوية مكسرات الأول عشان نقدر نأكد الطلب. 😊");
+              }
+            }}>
+              <button 
+                className={`btn-primary w-full mt-4 ${cartItems.length === 0 ? 'disabled' : ''}`}
+                disabled={cartItems.length === 0}
+              >
+                تأكيد الطلب
+              </button>
             </Link>
           </div>
         </div>

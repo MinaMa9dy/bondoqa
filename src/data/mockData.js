@@ -8,7 +8,7 @@ export const products = [
     category: "عين جمل",
     description: "عين جمل محمص درجة أولى من أجود المحاصيل العريقة.",
     defaultWeight: "500 gm",
-    isMixed: true,
+    isMixed: false,
     options: [
       { weight: "250 gm", price: 125 },
       { weight: "500 gm", price: 250 },
@@ -40,7 +40,7 @@ export const products = [
     category: "كاجو",
     description: "كاجو محمص درجة أولى غني بالبروتين والمذاق الرائع.",
     defaultWeight: "500 gm",
-    isMixed: true,
+    isMixed: false,
     options: [
       { weight: "250 gm", price: 190 },
       { weight: "500 gm", price: 380 },
@@ -56,7 +56,7 @@ export const products = [
     category: "لوز",
     description: "لوز محمص درجة أولى محمص بعناية لتقديم مذاق صحي ومميز.",
     defaultWeight: "500 gm",
-    isMixed: true,
+    isMixed: false,
     options: [
       { weight: "250 gm", price: 170 },
       { weight: "500 gm", price: 340 },
@@ -74,9 +74,9 @@ export const products = [
     defaultWeight: "500 gm",
     isMixed: true,
     options: [
-      { weight: "250 gm", price: 170 },
-      { weight: "500 gm", price: 340 },
-      { weight: "1000 gm", price: 650 }
+      { weight: "250 gm", price: 170, ksrPrice: 150 },
+      { weight: "500 gm", price: 340, ksrPrice: 280 },
+      { weight: "1000 gm", price: 650, ksrPrice: 520 }
     ]
   }
 ];

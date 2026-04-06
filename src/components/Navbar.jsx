@@ -16,6 +16,13 @@ const Navbar = () => {
     return () => clearTimeout(timer);
   }, [cartCount]);
   
+  const handleHelpClick = (e) => {
+    if (cartCount === 0) {
+      e.preventDefault();
+      alert("سلتك فاضية حالياً. ابدأ بإضافة بعض المكسرات أولاً! 😊");
+    }
+  };
+  
   return (
     <header className="navbar">
       <div className="container flex justify-between items-center navbar-inner">
@@ -49,6 +56,7 @@ const Navbar = () => {
         
         {/* Actions */}
         <div className="navbar-actions flex items-center gap-4">
+          <Link to="/cart" className="help-order-link hide-on-mobile" onClick={handleHelpClick}>أتمم طلبك (مساعدة)</Link>
           <Link to="/cart" className={`icon-btn cart-btn ${isBumped ? 'bump' : ''}`} aria-label="Shopping Cart">
             <ShoppingCart size={22} />
             <span className="cart-badge">{cartCount}</span>

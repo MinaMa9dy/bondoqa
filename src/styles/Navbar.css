@@ -116,6 +116,26 @@
   transition: transform 0.2s ease;
 }
 
-.cart-btn.bump .cart-badge {
-  transform: scale(1.1);
+.help-order-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.4rem 1rem;
+  border: 1.5px solid var(--color-primary);
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.help-order-link:hover {
+  background-color: var(--color-primary);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(100, 150, 0, 0.2);
+}
+
+@media (max-width: 600px) {
+  .hide-on-mobile {
+    display: none;
+  }
 }

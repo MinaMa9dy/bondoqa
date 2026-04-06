@@ -139,3 +139,11 @@
 .mt-4 {
   margin-top: 1rem;
 }
+
+.btn-primary.disabled {
+  background-color: var(--color-border);
+  color: var(--color-text-light);
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
