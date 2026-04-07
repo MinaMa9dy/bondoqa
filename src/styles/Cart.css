@@ -147,3 +147,8 @@
   transform: none !important;
   box-shadow: none !important;
 }
+
+.free-shipping {
+  color: #2e7d32;
+  font-weight: 700;
+}

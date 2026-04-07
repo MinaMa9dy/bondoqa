@@ -3,7 +3,7 @@ import { useCart } from '../context/CartContext';
 import '../styles/Checkout.css';
 
 const Checkout = () => {
-  const { cartItems, cartSubtotal, clearCart } = useCart();
+  const { cartItems, cartSubtotal, clearCart, shippingFee, total } = useCart();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -51,7 +51,7 @@ const Checkout = () => {
       orderText += `   🔢 الكمية: ${item.quantity} | 💰 السعر: ${item.price * item.quantity} ج.م\n\n`;
     });
 
-    orderText += `💰 *الإجمالي:* ${cartSubtotal + 30} ج.م (شامل الشحن)`;
+    orderText += `💰 *الإجمالي:* ${total} ج.م ${shippingFee === 0 ? '(شحن مجاني)' : '(شامل الشحن)'}`;
 
     try {
       if (TELEGRAM_BOT_TOKEN && TELEGRAM_CHAT_ID) {
@@ -135,8 +135,19 @@ const Checkout = () => {
           <div className="checkout-summary-sticky">
             <h3>ملخص الدفع</h3>
             <div className="flex justify-between mt-2" style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>المجموع (شامل الشحن):</span>
-              <span className="font-bold">{cartSubtotal + 30} ج.م</span>
+              <span>المجموع الفرعي:</span>
+              <span>{cartSubtotal} ج.م</span>
+            </div>
+            <div className="flex justify-between mt-1" style={{ display: 'flex', justifyContent: 'space-between', color: shippingFee === 0 ? '#2e7d32' : 'inherit' }}>
+              <span>الشحن:</span>
+              <span className="font-bold">
+                {shippingFee === 0 ? 'مجاني' : `${shippingFee} ج.م`}
+              </span>
+            </div>
+            <hr style={{ margin: '10px 0', border: '0', borderTop: '1px solid #dcd0c0' }} />
+            <div className="flex justify-between mt-2" style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span className="font-bold">الإجمالي:</span>
+              <span className="font-bold" style={{ fontSize: '1.2rem', color: 'var(--color-primary)' }}>{total} ج.م</span>
             </div>
             <p className="summary-note mt-2">سوف يتم التواصل معك قريباً لتأكيد موعد الاستلام.</p>
             <button type="submit" className="btn-primary w-full mt-4" disabled={isSubmitting}>

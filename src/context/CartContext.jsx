@@ -55,6 +55,10 @@ export const CartProvider = ({ children }) => {
 
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const cartSubtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
+  
+  // Shipping logic: Free for orders >= 500 EGP, otherwise 30 EGP
+  const shippingFee = (cartItems.length > 0 && cartSubtotal < 500) ? 30 : 0;
+  const total = cartSubtotal + shippingFee;
 
   return (
     <CartContext.Provider value={{ 
@@ -64,7 +68,9 @@ export const CartProvider = ({ children }) => {
       updateQuantity, 
       clearCart,
       cartCount, 
-      cartSubtotal 
+      cartSubtotal,
+      shippingFee,
+      total
     }}>
       {children}
     </CartContext.Provider>

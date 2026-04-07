@@ -5,8 +5,7 @@ import { useCart } from '../context/CartContext';
 import '../styles/Cart.css';
 
 const Cart = () => {
-  const { cartItems, removeFromCart, updateQuantity, cartSubtotal } = useCart();
-  const total = cartSubtotal + (cartItems.length > 0 ? 30 : 0);
+  const { cartItems, removeFromCart, updateQuantity, cartSubtotal, shippingFee, total } = useCart();
 
   return (
     <div className="cart-page container">
@@ -71,8 +70,20 @@ const Cart = () => {
             </div>
             <div className="summary-row">
               <span>الشحن</span>
-              <span>{cartItems.length > 0 ? 30 : 0} ج.م</span>
+              <span className={shippingFee === 0 && cartSubtotal >= 500 ? 'free-shipping' : ''}>
+                {shippingFee === 0 && cartSubtotal >= 500 ? 'مجاني' : `${shippingFee} ج.م`}
+              </span>
             </div>
+            {cartSubtotal < 500 && cartItems.length > 0 && (
+              <p style={{fontSize: '0.75rem', color: 'var(--color-primary)', marginTop: '0.5rem', textAlign: 'center'}}>
+                أضف <b>{500 - cartSubtotal} ج.م</b> إضافية للحصول على شحن مجاني! 🚚
+              </p>
+            )}
+            {cartSubtotal >= 500 && (
+              <p style={{fontSize: '0.75rem', color: '#2e7d32', marginTop: '0.5rem', textAlign: 'center'}}>
+                مبروك! لقد حصلت على شحن مجاني 🥳
+              </p>
+            )}
             <hr className="summary-divider" />
             <div className="summary-row summary-total">
               <span>الإجمالي</span>
