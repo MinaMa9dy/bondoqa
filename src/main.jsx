@@ -6,7 +6,7 @@ import { CartProvider } from './context/CartContext';
 import ReactGA from "react-ga4";
 
 // Initialize GA4 with the Measurement ID
-ReactGA.initialize("G-DBXHSFXGYK");
+ReactGA.initialize("G-ZZ95XGZPMN");
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
